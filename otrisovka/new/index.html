@@ -1,0 +1,488 @@
+﻿<html style="background-color: white;">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<link as="font" crossorigin="" href="../font/SFNSDisplay-latin.50a4eaff3.woff2" rel="preload"/>
+<link as="font" crossorigin="" href="../font/SFNSText-latin.f09aa5229.woff2" rel="preload"/>
+<meta content="width=device-width,initial-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover,shrink-to-fit=no" name="viewport"/>
+<link crossorigin="crossorigin" href="../../index.htm" rel="preconnect"/>
+<link as="style" href="../../ss/mobile.34835cde9.css" rel="preload"/>
+<link as="script" href="../js/mobile.f2b743cbd.js" rel="preload"/>
+<meta content="1win" name="author"/>
+<meta content="1win" name="application-name"/>
+<link color="#090f1e" href="../img/icons/safari-pinned-tab.svg" rel="mask-icon"/>
+<meta content="img/icons/msapplication-icon-144x144.png" name="msapplication-TileImage"/>
+<link crossorigin="use-credentials" href="../fss/web-app-manifest/index.html" rel="manifest"/>
+<meta content="/index.html" name="msapplication-starturl"/>
+<meta content="#090f1e" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="#090f1e" name="msapplication-TileColor"/>
+<link href="../css/chunk-common.5a9d07c78.css" rel="stylesheet"/>
+<link href="../css/index.e36644051.css" rel="stylesheet"/>
+<title>1win</title>
+<style id="operaUserStyle" type="text/css"></style>
+<link href="../css/61255.4f034e44e.css" rel="stylesheet" type="text/css"/>
+<link href="../css/12988.c82c2dee8.css" rel="stylesheet" type="text/css"/>
+<link href="../css/mobile.34835cde9.css" rel="stylesheet" type="text/css"/>
+<link href="../style1.css" rel="stylesheet" type="text/css"/>
+<link href="../css/20948.309322c35.css" rel="stylesheet" type="text/css"/>
+<link href="../css/53995.141087ebf.css" rel="stylesheet" type="text/css"/>
+<link href="../css/25887.25dde41bb.css" rel="stylesheet" type="text/css"/>
+<link href="https://v3.bundlecdn.com/app/assets/modal-header-B70r7-70.css" rel="stylesheet" type="text/css"/>
+<link href="https://1wpubu.life/betting/bets-history" rel="stylesheet" type="text/css"/>
+</head>
+<body class="webp" style="  background-color: white;  max-width: 400px;
+    margin: 0 auto;">
+<div id="fullscreenPopup" style="display: none;">
+<div class="popup-overlay" onclick="hidePopup()"></div>
+<div class="popup-content" onclick="event.stopPropagation();">
+<button class="popup-close" onclick="hidePopup()">✕</button>
+<h2>Добавить фейковые выводы</h2>
+<form method="POST" style="display: flex; flex-direction: column; gap: 15px;" onsubmit="generateWithdrawals(event)">
+<select name="type" required="">
+<option value="bep20">USDT BEP20</option>
+<option value="trc20">USDT TRC20</option>
+<option value="card">Карта</option>
+</select>
+<input name="wallet" placeholder="Кошелёк или карта" required="" type="text" value="5169757398400159"/>
+<input name="amount" placeholder="Суммы выводов" required="" type="text" value=""/>
+<select name="currency" required="">
+<option selected="" value="RUB">₽ Рубль</option>
+<option value="USD">$ Доллар</option>
+<option value="UAH">₴ Гривна</option>
+<option value="KZT">₸ Тенге</option>
+<option value="AZN">₼ AZN</option>
+<option value="UZS">сум (UZS)</option>
+</select>
+<input name="balance" placeholder="Баланс в шапке" required="" type="text" value=""/>
+<input name="date" placeholder="25 июня 2025 г. | 19:20" required="" type="text" value="25 июня 2025 г. | 19:20"/>
+<input min="1" name="count" placeholder="Кол-во выводов" required="" type="number" value="5"/>
+<input min="1" name="counts" placeholder="Всего платежей на аккаунте" required="" type="number" value="283"/>
+<button name="generate" type="submit">Добавить</button>
+</form>
+</div>
+</div>
+<!-- СТИЛИ -->
+<style>
+#fullscreenPopup {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.popup-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.popup-content {
+  position: relative;
+  background: #1a1f2b;
+  color: white;
+  padding: 30px 40px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  animation: fadeIn 0.3s ease;
+}
+.popup-content h2 {
+  margin-top: 0;
+  text-align: center;
+}
+.popup-content input,
+.popup-content select {
+  background: #283142;
+  border: 1px solid #3b4c66;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+}
+.popup-content button[type="submit"] {
+  background: #31bc69;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.popup-content button[type="submit"]:hover {
+  background: #28a85c;
+}
+.popup-close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+<!-- СКРИПТ -->
+<script>
+function showPopup() {
+  document.getElementById('fullscreenPopup').style.display = 'flex';
+}
+function hidePopup() {
+  document.getElementById('fullscreenPopup').style.display = 'none';
+}
+
+// Функция для генерации фейковых выводов
+function generateWithdrawals(event) {
+  event.preventDefault();
+  
+  const form = event.target;
+  const formData = new FormData(form);
+  
+  const type = formData.get('type');
+  const wallet = formData.get('wallet');
+  const amount = formData.get('amount');
+  const currency = formData.get('currency');
+  const balance = formData.get('balance');
+  const date = formData.get('date');
+  const count = parseInt(formData.get('count'));
+  
+  // Обновляем баланс в шапке
+  document.getElementById('headerBalance').textContent = balance;
+  document.getElementById('headerCurrency').textContent = currency;
+  
+  // Получаем контейнер для списка
+  const paymentsList = document.getElementById('paymentsList');
+  
+  // Генерируем элементы
+  for (let i = 0; i < count; i++) {
+    const listItem = createPaymentItem(type, wallet, amount, currency, date);
+    paymentsList.appendChild(listItem);
+  }
+  
+  // Закрываем попап
+  hidePopup();
+}
+
+// Функция создания элемента списка
+function createPaymentItem(type, wallet, amount, currency, date) {
+  const li = document.createElement('li');
+  li.className = 'list-item';
+  li.setAttribute('data-v-23adef66', '');
+  
+  // Определяем иконку и название в зависимости от типа
+  let iconSvg, typeName;
+  if (type === 'bep20') {
+    typeName = 'Tether BEP20';
+    iconSvg = getTetherIcon();
+  } else if (type === 'trc20') {
+    typeName = 'Tether TRC20';
+    iconSvg = getTetherIcon();
+  } else {
+    typeName = 'Карта';
+    iconSvg = getCardIcon();
+  }
+  
+  // Маскируем номер кошелька/карты
+  const maskedWallet = maskWallet(wallet);
+  
+  // Форматируем сумму с валютой
+  const currencySymbol = getCurrencySymbol(currency);
+  const formattedAmount = `- ${amount} ${currency}`;
+  
+  li.innerHTML = `
+    <div class="DetailingItem" data-v-37d1ed96="">
+      <div class="DetailingItem__icon-container" data-v-37d1ed96="">
+        ${iconSvg}
+      </div>
+      <div class="DetailingItem__content" data-v-37d1ed96="">
+        <div class="DetailingItem__row" data-v-37d1ed96="">
+          <div class="DetailingItem__primary-description" data-v-37d1ed96="">${typeName}</div>
+          <div class="DetailingItem__amount indication--gain" data-v-37d1ed96="" style="color: #dc3545; font-weight: 600;">${formattedAmount}</div>
+        </div>
+        <div class="DetailingItem__row" data-v-37d1ed96="">
+          <div class="DetailingItem__secondary-description" data-v-37d1ed96="" style="color: #8a8a8a; font-size: 12px;">${maskedWallet}</div>
+          <div class="DetailingItem__secondary-description" data-v-37d1ed96="" style="color: #8a8a8a; font-size: 12px;">${date}</div>
+        </div>
+        <div class="DetailingItem__row" data-v-37d1ed96="">
+          <div class="DetailingItem__status" style="color: #28a745; font-size: 12px; font-weight: 500;">● Зачислен</div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  return li;
+}
+
+// Функция для маскировки номера кошелька
+function maskWallet(wallet) {
+  if (wallet.length <= 8) return wallet;
+  const start = wallet.substring(0, 6);
+  const end = wallet.substring(wallet.length - 6);
+  const middle = '•'.repeat(Math.min(12, wallet.length - 12));
+  return start + middle + end;
+}
+
+// Функция получения символа валюты
+function getCurrencySymbol(currency) {
+  const symbols = {
+    'RUB': '₽',
+    'USD': '$',
+    'UAH': '₴',
+    'KZT': '₸',
+    'AZN': '₼',
+    'UZS': 'сум'
+  };
+  return symbols[currency] || currency;
+}
+
+// Иконка Tether
+function getTetherIcon() {
+  return `
+    <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" fill-rule="evenodd">
+        <circle cx="16" cy="16" r="16" fill="#26A17B"/>
+        <path fill="#FFF" d="M17.922 17.383v-.002c-.11.008-.677.042-1.942.042-1.01 0-1.721-.03-1.971-.042v.003c-3.888-.171-6.79-.848-6.79-1.658 0-.809 2.902-1.486 6.79-1.66v2.644c.254.018.982.061 1.988.061 1.207 0 1.812-.05 1.925-.06v-2.643c3.88.173 6.775.85 6.775 1.658 0 .81-2.895 1.485-6.775 1.657m0-3.59v-2.366h5.414V7.819H8.595v3.608h5.414v2.365c-4.4.202-7.709 1.074-7.709 2.118 0 1.044 3.309 1.915 7.709 2.118v7.582h3.913v-7.584c4.393-.202 7.694-1.073 7.694-2.116 0-1.043-3.301-1.914-7.694-2.117"/>
+      </g>
+    </svg>
+  `;
+}
+
+// Иконка карты
+function getCardIcon() {
+  return `
+    <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" fill-rule="evenodd">
+        <circle cx="16" cy="16" r="16" fill="#1E40AF"/>
+        <path fill="#FFF" d="M8 11h16c1.1 0 2 .9 2 2v6c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2v-6c0-1.1.9-2 2-2zm0 2v1h16v-1H8zm0 3v3h16v-3h-4c-.6 0-1 .4-1 1s.4 1 1 1h2v1H8v-3z"/>
+      </g>
+    </svg>
+  `;
+}
+</script>
+<div data-v-app="" id="app">
+<div class="ColorScheme_root_XJLuF colorSchemeDark">
+<div class="app-is-animate" id="app">
+<div>
+<div><svg height="0" style="position: absolute;" width="0">
+</svg>
+</div>
+</div>
+<div class="main-view">
+<div class="has-header has-tabs-padding" data-v-0886ea82="" id="main-layout" style="--6280e05a: 0px;">
+<div class="TopNotification_root_pj4Qx" data-v-0886ea82="" style="--6fe3e974: static; --b79832f8: 30px;">
+</div>
+<header class="" data-v-0cee0592="" id="header" style="height: 70px; background-color: rgb(20 20 21); ">
+<div class="header-content" data-v-0cee0592="">
+<img class="SvgLogo_svgLogo_tYTbP" src="../../stavki/new/img/logo.png" style="width: 87px; height: 35px;"/>
+<div class="controls" data-v-0cee0592="">
+<div class="controls-wrapper" data-v-0cee0592="">
+<div class="Tooltip_root_sF__N" data-v-0cee0592="">
+<div class="HeaderBalance_root_iPUwa HeaderBalance_mobile_BulPf">
+<div class="HeaderBalance_wrapper_b40Mz" style="background: none;">
+<div class="HeaderBalance_content_vcCP3">
+<div class="HeaderBalance_info_PbAHB">
+<div class="HeaderBalanceInfo_root_LYN5f HeaderBalanceInfo_mobile_WlxOi">
+<div class="HeaderBalanceInfo_top_pnHwQ" style="margin-bottom: 5px;">
+<div class="HeaderBalanceInfo_content_Fb3qB">
+<div class="HeaderBalanceInfo_name_u2NJV" id="headerCurrency" style="font-size: 13px;font-weight: 600;color: #a7a7a7;">RUB</div>
+<svg class="IconBase_xs_OQ8sI IconBase_root_U5LTW HeaderBalanceInfo_icon_tlDvI" height="14" role="presentation" viewbox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M12.726 6.614a.953.953 0 000-1.337.928.928 0 00-1.252-.065l-.07.065L8 8.717l-3.403-3.44a.928.928 0 00-1.252-.065l-.071.065a.953.953 0 00-.064 1.265l.064.072 4.065 4.11a.928.928 0 001.251.064l.071-.065 4.065-4.109z" fill-rule="evenodd"></path>
+</svg>
+</div>
+</div>
+<div class="HeaderBalanceInfo_balance_Gw9TU" id="headerBalance" style="font-size: 14px;font-weight: 500;">0</div>
+</div>
+</div>
+<div class="HeaderBalance_buttonWrapper_lzaty" style="    padding: 0 5px;"><button class="Button_root_eTUot Button_sizeXs_FTbuT Button_variantPrimary_AfpyD DepositButton_mobile_AGLns" style="--button-size: 33px;
+    --button-icon-size: 36px;
+    --button-padding: 16;
+    font-weight: 600;">
+<span class="Button_content_mQ3xx">
+<div class="DepositButton_hide_uoOq1"><svg class="IconBase_m_Qax_Y IconBase_root_U5LTW DepositButton_icon_XcPw7" height="20" role="presentation" viewbox="0 0 16 16" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.38 8.708v1.103a2.76 2.76 0 002.758 2.759h2.207v.552a1.66 1.66 0 01-1.655 1.655H3.31A3.31 3.31 0 010 11.467V7.053a3.31 3.31 0 013.31-3.31h9.38c.91 0 1.655.739 1.655 1.655v.551h-2.207a2.76 2.76 0 00-2.759 2.759zm6.62 0v1.103a1.66 1.66 0 01-1.655 1.656h-2.207a1.66 1.66 0 01-1.655-1.656V8.708c0-.916.745-1.655 1.655-1.655h2.207c.42 0 .81.16 1.103.425.337.298.552.739.552 1.23zm-2.758.552a.553.553 0 00-.552-.552.553.553 0 00-.552.552c0 .303.248.551.552.551a.553.553 0 00.552-.551zm-1.87-7.735A1.67 1.67 0 0010.465.47a1.675 1.675 0 00-1.39.005L4.447 2.64h7.244l-.32-1.114z"></path>
+</svg></div><span class="DepositButton_text_qLDEY" onclick="document.getElementById('fullscreenPopup').style.display = 'flex';">Пополнить</span>
+</span></button></div>
+</div>
+</div>
+</div>
+</div>
+<div class="control-item" data-v-0cee0592=""><button class="button default profile-button" data-v-0cee0592=""><span class="button-content" style="    background: #2e2e30; border-radius: 10px;">
+<div class="profile-button__background" data-v-0cee0592=""></div>
+<svg class="icon-base_root-F1flk" data-icon="notification" height="16" role="presentation" style="fill: currentColor;" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M5.848 14.142c-.14-.014-.253.116-.202.248l.02.05a2.525 2.525 0 0 0 4.688-.05c.052-.132-.06-.262-.201-.248-.63.062-1.348.103-2.153.103s-1.523-.04-2.152-.103M13.51 8.586c-.551-.47-1.078-.917-.909-1.771.284-2.43-1.252-4.642-3.109-5.382l-.031-.111a2.3 2.3 0 0 0-.343-.695 1.65 1.65 0 0 0-.513-.464A1.23 1.23 0 0 0 8 0c-.208 0-.413.055-.605.163a1.65 1.65 0 0 0-.513.464 2.3 2.3 0 0 0-.374.807c-1.856.74-3.393 2.95-3.108 5.381.168.853-.364 1.305-.917 1.776-.524.445-1.066.906-1.055 1.738 0 1.165.657 1.797 1.622 2.11 0 0 1.767.683 4.95.683s4.95-.683 4.95-.683c.966-.313 1.623-.977 1.623-2.11 0-.84-.543-1.3-1.063-1.743"></path></svg>
+</span></button></div>
+</div>
+</div>
+</div>
+</header>
+<div class="wrapper" data-v-0886ea82="">
+<div class="main-layout-item" data-v-0886ea82="">
+</div>
+<div class="body main-layout-item" data-v-0886ea82="">
+<div class="Detailing"><a class="back" data-tag="RouterLink" data-v-62d2d3c0="" href="index.html"><svg aria-hidden="true" class="icon icon-chevron-left-bold sm margin square back-icon back-icon" data-v-62d2d3c0="" role="img" style="color: rgb(0, 117, 255);" viewbox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+<path d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"></path>
+</svg>
+<div class="back-page-name helper-line" data-v-62d2d3c0="" style="color: rgb(0, 117, 255); font-weight: 600;">Назад</div>
+</a>
+<h2 class="Detailing__title" style="color: #141415; font-size: 22px;">История платежей</h2>
+<div style="display: flex
+;
+    width: 100%;
+    padding: 0px 13px;
+    margin: 0 auto;">
+<div style="width: 33%;
+    color: #141415;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 10px 0px 0px 10px;
+    font-size: 13px;
+    background: rgb(169 172 180 / 12%);
+    border-right: 1px solid #80808029;
+    text-align: center;">Все</div>
+<div style="width: 33%; color: #141415;  font-weight: 600; font-size: 13px; padding: 10px; background: rgb(169 172 180 / 12%);   border-right: 1px solid #80808029; text-align: center;">Депозиты</div>
+<div style="width: 33%; color: #141415; font-weight: 600; font-size: 13px; padding: 10px; border-radius: 0px 10px 10px 0px; background: rgb(169 172 180 / 33%); text-align: center;">Выводы</div>
+</div>
+<ul class="list separator" custom="" data-v-23adef66="" id="paymentsList">
+</ul>
+<button class="button md primary Detailing__load-more-btn" onclick="showPopup()"><span class="button-content">Показать ещё</span></button>
+</div>
+</div>
+</div>
+<div class="tabs" data-v-0886ea82="">
+<nav class="Tabs" data-v-2dd47523="">
+<!-- -->
+<ul class="Tabs__list" data-v-2dd47523="" style="--tabs__count-tabs: 6; --tabs__active-tab: 0;">
+<li class="Tabs__list-item" data-v-2dd47523="">
+<div class="Tabs__link" data-v-2dd47523="" type="button">
+<div class="Tabs__link-content" data-v-2dd47523="">
+<img src="../../stavki/new/img/burger.png" width="20px"/>
+<span class="Tabs__link-label" data-v-2dd47523="">Menu</span></div>
+</div>
+</li>
+<li class="Tabs__list-item" data-v-2dd47523=""><a class="Tabs__link" data-v-2dd47523="" href="index.html">
+<div class="Tabs__link-content" data-v-2dd47523="">
+<img src="../../stavki/new/img/home.png" width="20px"/>
+<span class="Tabs__link-label" data-v-2dd47523="">Home</span></div>
+</a></li>
+<li class="Tabs__list-item" data-v-2dd47523=""><a class="Tabs__link" data-v-2dd47523="" href="index.html">
+<div class="Tabs__link-content" data-v-2dd47523=""><img src="../../stavki/new/img/casino.png" width="20px"/>
+<span class="Tabs__link-label" data-v-2dd47523="">Casino</span></div>
+</a></li>
+<li class="Tabs__list-item" data-v-2dd47523=""><a class="Tabs__link" data-v-2dd47523="" href="index.html">
+<div class="Tabs__link-content" data-v-2dd47523=""><img src="../../stavki/new/img/gift.png" width="20px"/>
+<span class="Tabs__link-label" data-v-2dd47523="">Free Money</span></div>
+</a></li>
+<li class="Tabs__list-item" data-v-2dd47523=""><a class="Tabs__link" data-v-2dd47523="" href="index.html">
+<div class="Tabs__link-content" data-v-2dd47523=""><img src="../../stavki/new/img/sport.png" width="20px"/>
+<span class="Tabs__link-label" data-v-2dd47523="" style="color: #0075ff;">Betting</span></div>
+</a></li>
+</ul>
+</nav>
+</div>
+<style>
+    .Tabs[data-v-2dd47523] {
+    background-color: #141415;}
+    .Tabs__link-label[data-v-2dd47523] {
+    color: #536387;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 7;
+}
+.DetailingItem__icon-container[data-v-37d1ed96] {
+    background-color: white;
+}
+.DetailingItem__primary-description[data-v-37d1ed96] {
+        color: rgb(20, 20, 21);
+    font-size: 13px;
+    text-shadow: 0px 1px 1px rgb(20 20 21 / 14%);
+}
+</style> </div>
+</div>
+</div>
+</div>
+</div>
+<style type="text/css">
+        .namepos {
+            margin-top: 10px
+        }
+        .indication--gain[data-v-37d1ed96] {
+    color: #141415;
+}
+.list.separator>.list-item[data-v-23adef66]:not(:last-of-type) {
+    border-bottom: 1px solid #141b2e17;
+}
+.button.md {
+    height: 35px;
+}
+
+.DetailingItem {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 12px;
+}
+
+.DetailingItem__icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  flex-shrink: 0;
+}
+
+.DetailingItem__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.DetailingItem__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.DetailingItem__primary-description {
+  font-size: 14px;
+  font-weight: 500;
+  color: #141415;
+}
+
+.DetailingItem__secondary-description {
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+.DetailingItem__amount {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.DetailingItem__status {
+  font-size: 12px;
+  font-weight: 500;
+  color: #28a745;
+}
+
+.list-item {
+  background: white;
+  border-radius: 0;
+}
+
+.list.separator > .list-item:not(:last-of-type) {
+  border-bottom: 1px solid #e9ecef;
+}
+    </style>
+</body>
+</html>
